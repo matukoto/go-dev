@@ -43,4 +43,9 @@ func main() {
 		fmt.Println(i)
 	}
 
+	// for-range
+	evanVals := [6]int{2, 4, 6, 8, 10, 12}
+	for _, v := range evanVals {
+		fmt.Println(v)
+	}
 }
