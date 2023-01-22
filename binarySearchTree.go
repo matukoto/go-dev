@@ -11,15 +11,13 @@ func main() {
 
 // 線形検索
 func linerSearch(data []int, key int) (int, int, error) {
-	position := 0
 	end := len(data) - 1
 	steps := 1
 
-	for position < end {
-		if data[position] == key {
+	for i := 0; i < end; i++ {
+		if data[i] == key {
 			return steps, key, nil
 		}
-		position++
 		steps++
 	}
 	return steps, 0, nil
