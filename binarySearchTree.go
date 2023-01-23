@@ -1,6 +1,7 @@
 package main
 
 import "fmt"
+import "errors"
 
 func main() {
 	// 探索対象の配列
@@ -22,7 +23,7 @@ func linerSearch(data []int, key int) (int, int, error) {
 		}
 		steps++
 	}
-	return steps, 0, nil
+	return 0, 0, errors.New("Key not found")
 }
 
 // 関数の実行
@@ -31,14 +32,21 @@ func search(title string, data []int, fn func(list []int, value int) (int, int, 
 	fmt.Println(title)
 	maxSteps := 1
 	stepSum := 0
+
 	for i, v := range data {
-		steps, key, _ := fn(data, v)
+		steps, key, err := fn(data, v)
+		if err != nil {
+			fmt.Println(err)
+		}
 		stepSum += steps
+
 		if maxSteps < steps {
 			maxSteps = steps
 		}
+
 		fmt.Println("key: ", key, "position: ", i, "steps: ", steps)
 	}
+
 	fmt.Println("最大ステップ数: ", maxSteps)
 	fmt.Println("平均ステップ数: ", stepSum/len(data))
 }
