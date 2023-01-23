@@ -30,9 +30,13 @@ func binarySearch(data []int, key int) (int, int, error) {
 	start := 0
 	end := len(data)
 	steps := 0
+
 	for start <= end {
-		middle := (start + end) / 2
+
+		// オーバーフローの可能性があるため
+		middle := start + (end-start)/2
 		steps++
+
 		if data[middle] == key {
 			return steps, key, nil
 		} else if data[middle] < key {
@@ -40,7 +44,9 @@ func binarySearch(data []int, key int) (int, int, error) {
 		} else {
 			end = middle - 1
 		}
+
 	}
+
 	return steps, key, errors.New("Key not found")
 }
 
