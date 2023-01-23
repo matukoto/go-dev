@@ -6,10 +6,9 @@ import "errors"
 func main() {
 	// 探索対象の配列
 	data := []int{1, 3, 7, 13, 17, 21, 74}
-	steps, key, _ := linerSearch(data, 21)
-	fmt.Println(steps, key)
 
 	search("線形探索", data, linerSearch)
+	search("二分探索", data, binarySearch)
 }
 
 // 線形検索
@@ -24,6 +23,25 @@ func linerSearch(data []int, key int) (int, int, error) {
 		}
 	}
 	return 0, 0, errors.New("Key not found")
+}
+
+// 二分探索木
+func binarySearch(data []int, key int) (int, int, error) {
+	start := 0
+	end := len(data)
+	steps := 0
+	for start <= end {
+		middle := (start + end) / 2
+		steps++
+		if data[middle] == key {
+			return steps, key, nil
+		} else if data[middle] < key {
+			start = middle + 1
+		} else {
+			end = middle - 1
+		}
+	}
+	return steps, key, errors.New("Key not found")
 }
 
 // 関数の実行
