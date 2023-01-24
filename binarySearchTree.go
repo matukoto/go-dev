@@ -5,10 +5,12 @@ import "errors"
 
 func main() {
 	// 探索対象の配列
-	data := []int{1, 3, 7, 18, 17, 21, 74}
+	data1 := []int{1, 3, 7, 13, 17, 21, 74}
+	data2 := []int{1, 3, 7, 17, 13, 21, 74}
 
-	search("線形探索", data, linerSearch)
-	search("二分探索", data, binarySearch)
+	search("線形探索", data1, linerSearch)
+	search("二分探索", data1, binarySearch)
+	search("二分探索 昇順でも降順でもないので失敗", data2, binarySearch)
 }
 
 // 線形検索
@@ -29,11 +31,8 @@ func linerSearch(data []int, key int) (int, int, error) {
 func binarySearch(data []int, key int) (int, int, error) {
 
 	// 探索対象の配列がソートされていることを確認
-	for i := 0; i < len(data)-1; i++ {
-
-		if data[i] < data[i+1] {
-			return 0, 0, errors.New("Array is not sorted")
-		}
+	if isNotSorted(data, true) && isNotSorted(data, false) {
+		return 0, 0, errors.New("Array is not sorted")
 	}
 
 	start := 0
@@ -59,7 +58,7 @@ func binarySearch(data []int, key int) (int, int, error) {
 	return steps, key, errors.New("Key not found")
 }
 
-// 関数の実行
+// 探索の実行
 // 最大ステップ数と平均ステップ数を求める
 func search(title string, data []int, fn func(list []int, value int) (int, int, error)) {
 	fmt.Println(title)
@@ -83,4 +82,16 @@ func search(title string, data []int, fn func(list []int, value int) (int, int, 
 
 	fmt.Println("最大ステップ数: ", maxSteps)
 	fmt.Println("平均ステップ数: ", stepSum/len(data))
+}
+
+// 昇順、降順を判定する
+func isNotSorted(data []int, ascending bool) bool {
+	for i := 1; i < len(data); i++ {
+		if ascending && data[i-1] > data[i] {
+			return true
+		} else if !ascending && data[i-1] < data[i] {
+			return true
+		}
+	}
+	return false
 }
