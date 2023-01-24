@@ -5,7 +5,7 @@ import "errors"
 
 func main() {
 	// 探索対象の配列
-	data := []int{1, 3, 7, 13, 17, 21, 74}
+	data := []int{1, 3, 7, 18, 17, 21, 74}
 
 	search("線形探索", data, linerSearch)
 	search("二分探索", data, binarySearch)
@@ -27,8 +27,17 @@ func linerSearch(data []int, key int) (int, int, error) {
 
 // 二分探索木
 func binarySearch(data []int, key int) (int, int, error) {
+
+	// 探索対象の配列がソートされていることを確認
+	for i := 0; i < len(data)-1; i++ {
+
+		if data[i] < data[i+1] {
+			return 0, 0, errors.New("Array is not sorted")
+		}
+	}
+
 	start := 0
-	end := len(data)
+	end := len(data) - 1
 	steps := 0
 
 	for start <= end {
@@ -61,6 +70,7 @@ func search(title string, data []int, fn func(list []int, value int) (int, int, 
 		steps, key, err := fn(data, v)
 		if err != nil {
 			fmt.Println(err)
+			return
 		}
 		stepSum += steps
 
